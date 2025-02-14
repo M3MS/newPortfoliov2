@@ -2,11 +2,11 @@
 
 export const settings = {
   speed: 0.05,
-  density: 1.8,
+  density: 2.8,
   strength: 0.8,
-  frequency: 3.0,
-  amplitude: 3.0,
-  intensity: 2.0
+  frequency: 7.0,
+  amplitude: 7.0,
+  intensity: 1.0
 };
   
 export const noise = `
@@ -191,9 +191,9 @@ export const fragmentShader = `
     float distort = vDistort * uIntensity;
     
     vec3 brightness = vec3(0.5, 0.5, 0.5);
-    vec3 contrast = vec3(0.5, 0.5, 0.5);
+    vec3 contrast = vec3(0.7, 0.5, 0.5);
     vec3 oscilation = vec3(1.0, 0.7, 0.4);
-    vec3 phase = vec3(0.00, 0.15, 0.20);
+    vec3 phase = vec3(0.00, 0.15, 0.22);
   
     vec3 color = cosPalette(distort, brightness, contrast, oscilation, phase);
 
