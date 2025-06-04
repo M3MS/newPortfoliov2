@@ -24,7 +24,12 @@ export class Scene {
         this.canvas = this.renderer.domElement;
         this.composer = new EffectComposer( this.renderer );
         
-        this.camera = new THREE.PerspectiveCamera( 45, Window.w / Window.h, 1, 1000 );
+        this.camera = new THREE.PerspectiveCamera(
+            45,
+            this.container.offsetWidth / this.container.offsetHeight,
+            0.1,
+            1000
+        );
         
         this.camera.position.set(2.0, -1.2, 1.0);
         

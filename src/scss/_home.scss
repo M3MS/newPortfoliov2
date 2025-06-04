@@ -29,7 +29,7 @@
 				font-size: 27vw;
 				text-transform: uppercase;
 				font-weight: bold;
-				line-height: 0.88;
+				line-height: 0.9;
 				overflow: hidden;
 				margin: 0;
 
@@ -82,7 +82,7 @@
 	.work {
 		margin-bottom: 25vh;
 		
-		&__items {
+		.work-items {
 			max-width: 90vw;
 			margin: 6rem auto;
 			
@@ -102,38 +102,39 @@
 					//mix-blend-mode: exclusion;
 				}
 			}
-		}
 
-		&__item {
-			position: relative;
-			width: 100%;
-			display: block;
-			text-transform: uppercase;
-
-			a {
-				display: block;
-				font-size: 6vw;
-				padding: 4rem 0;
-				overflow: hidden;
-				transition: all 0.3s ease-in-out;
-
-				@media (min-width: 768px) {
-					font-size: 3vw;
-				}
-
-				&:hover {
-					transform: skewX(-25deg);
-				}
-			}
-
-			.line {
+			&__item {
+				position: relative;
 				width: 100%;
-				height: 1px;
-				background: #fff;
-				position: absolute;
-				bottom: 0;
-				transform: scaleX(0);
-				transform-origin: left;
+				display: block;
+				text-transform: uppercase;
+	
+				a {
+					display: block;
+					font-size: 6vw;
+					line-height: 0.9;
+					padding: 5rem 0 2rem 1rem;
+					overflow: hidden;
+					transition: all 0.3s ease-in-out;
+	
+					@media (min-width: 768px) {
+						font-size: 3vw;
+					}
+	
+					&:hover {
+						transform: skewX(-20deg);
+					}
+				}
+	
+				.line {
+					width: 110%;
+					height: 1px;
+					background: #fff;
+					position: absolute;
+					bottom: 0;
+					transform: scaleX(0);
+					transform-origin: left;
+				}
 			}
 		}
 	}

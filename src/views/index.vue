@@ -5,12 +5,31 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import SplitText from 'gsap/SplitText';
 import LocomotiveScroll from 'locomotive-scroll';
 import { Scene } from '../scenes/BlobSceneClass';
+import WorkItem from '../components/WorkItem.vue';
 
 gsap.registerPlugin(SplitText);
 gsap.registerPlugin(ScrollTrigger);
 
 export default {
-	
+	components: {
+		WorkItem
+	},
+	data() {
+    return {
+		workitems: [
+			{
+				id: 'dixa',
+				name: 'Dixa',
+				link: 'https://dixa.com',
+			},
+			{
+				id: 'randell',
+				name: 'Randell Commercial',
+				link: 'https://randellcommercial.uk/',
+			},
+		],
+		};
+	},
 	setup() {
 		const main = ref();
 		const scroller = ref(null);
@@ -22,7 +41,7 @@ export default {
 		function initScroll() {
 
 			loco = new LocomotiveScroll({
-				el: document.querySelector('[data-scroll-container]'),
+				el: main.value,
 				smooth: true,
 				getDirection: true
 			});
@@ -43,13 +62,62 @@ export default {
 			ScrollTrigger.addEventListener('refresh', () => loco.update());
 			ScrollTrigger.refresh();
 		}
+
+		function marQuee() {
+
+			ScrollTrigger.saveStyles(".first, .second");
+
+			ScrollTrigger.matchMedia({
+
+				"(max-width: 768px)": function() {
+					
+					let mobileTL = gsap.timeline({
+						scrollTrigger: {
+							trigger: ".marquee",
+							start: "-100% bottom",
+							scrub: 1,
+							scroller: ".scroller"
+						}
+					});
+
+					mobileTL.to(".first", {duration: 2, xPercent: -100})
+							.to(".second", {duration: 2, xPercent: 100}, "<");
+				},
+				
+				"(min-width: 769px)": function() {
+
+					let desktopTL = gsap.timeline({
+						scrollTrigger: {
+							trigger: ".marquee",
+							start: "10% bottom",
+							scrub: 5,
+							scroller: ".scroller"
+						}
+					});
+
+					desktopTL.to(".first", {duration: 2, xPercent: -100})
+							 .to(".second", {duration: 2, xPercent: 100}, "<");
+				}
+			});
+
+			gsap.to('.techno', {
+				backgroundColor: 'rgb(249 255 107)',
+				ease: "sine.in",
+				duration: 1,
+				scrollTrigger: {
+					start: "top 70%",
+					trigger: ".techno",
+					scroller: ".scroller"
+				}
+			});
+		}
 		
 		onMounted(() => {
 			let textSplit = new SplitText('.text-split', {type: "lines, words"});
 			let introSplit = new SplitText('.intro-title', {type: "lines, words"});
 			let wavyText = textSplit.words;
 			let introText = introSplit.words;
-			let workItem = gsap.utils.toArray(".work__item");
+			let workItem = gsap.utils.toArray(".work-items__item");
 			let introTl = gsap.timeline({paused: true, delay: 2.5});
 			const overlay = document.querySelectorAll('.overlay');
 			const overlayPath = document.querySelectorAll('.overlay__path');
@@ -66,34 +134,29 @@ export default {
             const animMesh = sceneInstance.mesh;
 
             const g1Tl = gsap.timeline({
-				delay: 4,
 				scrollTrigger: {
 					trigger: '.hello',
 					start: 'top 60%',
 					scroller: '.scroller',
 					scrub: 2,
-					immediateRender: false,
 				},
 			});
 			const g2Tl = gsap.timeline({
-				delay: 4,
 				scrollTrigger: {
 					trigger: '.techno',
 					start: 'top 80%',
 					scroller: '.scroller',
 					scrub: 2,
-					immediateRender: false,
 				},
 			});
-
-            g1Tl.to(animMesh.rotation, { x: 0.5, y: -1 });
-			g1Tl.to(sceneInstance.camera.position, { x: 3, z: 4.5 }, '-=1');
+			
+			g1Tl.fromTo(sceneInstance.camera.position, {x: 2.0, z: 1.0}, { x: 3, z: 4.5 });
 
 			g2Tl.to(animMesh.rotation, { x: -2.5, y: 1.5 });
-			g2Tl.to(animMesh.scale, { x: 2.5, z: 3 }, '-=1');
-			g2Tl.to(sceneInstance.camera.position, { x: 6, y: -8 }, '-=1');
+			g2Tl.to(animMesh.scale, { x: 1, z: 1 }, '-=1');
+			g2Tl.fromTo(sceneInstance.camera.position, { x: 3, z: 4.5 }, { x: 6, y: -4 }, '-=1');
 
-			//marQuee();
+			marQuee();
 
 			ctx = gsap.context((self) => {
 
@@ -128,7 +191,7 @@ export default {
 				workItem.forEach(item => {
 
 					let line = item.querySelectorAll('.line');
-					let client = item.querySelectorAll('.work__item a');
+					let client = item.querySelectorAll('a');
 					let workSplit = new SplitText(client, {type: "lines, words"});
 					let workText = workSplit.lines;
 
@@ -221,49 +284,12 @@ export default {
 				<section data-scroll-section class="work" ref="work">
 					<div class="work__inner">
 						<h3 class="title-lg is-bold text-split">WORK</h3>
-						<div class="work__items">
-							<div class="work__item">
-								<a href="https://www.dixa.com" target="_blank">
-									Dixa
-								</a>
-								<span class="line"></span>
-							</div>
-							<div class="work__item">
-								<a href="https://web.archive.org/web/20230410111542/https://28marketplace.co.uk/" target="_blank">
-									28 Market Place
-								</a>
-								<span class="line"></span>
-							</div>
-							<div class="work__item">
-								<a href="https://www.canvasoffices.co.uk" target="_blank">
-									Canvas Offices
-								</a>
-								<span class="line"></span>
-							</div>
-							<div class="work__item">
-								<a href="https://web.archive.org/web/20190507120134/https://kutir.co.uk/" target="_blank" >
-									Kutir
-								</a>
-								<span class="line"></span>
-							</div>
-							<div class="work__item">
-								<a href="https://lahkoh.co.uk/" target="_blank">
-									Lah Koh
-								</a>
-								<span class="line"></span>
-							</div>
-							<div class="work__item">
-								<a href="https://web.archive.org/web/20211027092818/https://sohobrewing.com/" target="_blank">
-									Soho Brewing
-								</a>
-								<span class="line"></span>
-							</div>
-							<div class="work__item">
-								<a href="https://web.archive.org/web/20180811165212/http://pydarplace.co.uk/" target="_blank">
-									Pydar Place
-								</a>
-								<span class="line"></span>
-							</div>
+						<div class="work-items">
+							<workItem 
+								v-for="workitem in workitems"
+								:name="workitem.name"
+								:link="workitem.link"
+							/>
 						</div>
 					</div>
 				</section>
@@ -313,5 +339,4 @@ export default {
 			</svg>
 		</div>
 	</div>
-
 </template>
